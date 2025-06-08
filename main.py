@@ -21,10 +21,11 @@ def start_command(message):
 @bot.message_handler(content_types=['photo'])
 def handle_photo(message):
     chat_id = message.chat.id
-    if chat_id not in user_states or user_states[chat_id]["step"] != "waiting_image":
-        bot.send_message(chat_id, "❗ Please type /start first.")
-        return
-
+    
+    # Initialize user state if not already set
+    if chat_id not in user_states:
+        user_states[chat_id] = {"step": "waiting_image", "image_path": None}
+    
     bot.send_message(chat_id, "📥 Downloading your image...")
     file_info = bot.get_file(message.photo[-1].file_id)
     downloaded_file = bot.download_file(file_info.file_path)
@@ -41,13 +42,17 @@ def handle_photo(message):
 def handle_prompt(message):
     chat_id = message.chat.id
     text = message.text.strip()
+    
+    # Skip processing for /start command
+    if text.startswith('/start'):
+        return
 
     if chat_id not in user_states:
-        bot.send_message(chat_id, "❗ Please type /start first.")
+        bot.send_message(chat_id, "Please send an image first.")
         return
 
     if user_states[chat_id]["step"] != "waiting_prompt":
-        bot.send_message(chat_id, "❗ Please send an image first using /start.")
+        bot.send_message(chat_id, "Please send an image first.")
         return
 
     image_path = user_states[chat_id]["image_path"]
@@ -74,7 +79,7 @@ def handle_prompt(message):
         for i, image in enumerate(result["images"], start=1):
             bot.send_photo(chat_id, image["url"], caption=f"✅ Image {i}")
 
-        bot.send_message(chat_id, "🎉 Done! Want to generate more images? Type /start again.")
+        bot.send_message(chat_id, "🎉 Done! Want to generate more images? Send me an image first.")
 
     except Exception as e:
         bot.send_message(chat_id, f"⚠️ Error: {str(e)}")
