@@ -54,7 +54,7 @@ def handle_prompt(message):
     prompt = text
 
     try:
-        bot.send_message(chat_id, "🔄 Uploading image to FAL service...")
+        bot.send_message(chat_id, "🔄 Proccessing...")
         image_url = fal_client.upload_file(image_path)
 
         bot.send_message(chat_id, f"🎨 Editing image with prompt: *{prompt}*", parse_mode="Markdown")
