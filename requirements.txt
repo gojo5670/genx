@@ -1,0 +1,5 @@
+telebot
+flask
+fal-client
+pytelegrambotapi
+requests
