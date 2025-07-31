@@ -5,7 +5,7 @@ import fal_client
 from telebot import types
 
 # === API Keys ===
-TELEGRAM_TOKEN = "034099199:AAETuS13M8oHyLrzu4-vnX9J920qNnaxtOg"
+TELEGRAM_TOKEN = "7034099199:AAETuS13M8oHyLrzu4-vnX9J920qNnaxtOg"
 FAL_API_KEY = "d0ef57c7-5a0e-4a87-aa66-281b437bc0ae:3aaa35e26a361b9783c55d6b2781fc48"
 os.environ["FAL_KEY"] = FAL_API_KEY
 
